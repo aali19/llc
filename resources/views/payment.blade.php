@@ -2,28 +2,19 @@
 <html translate="no" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="preconnect" href="https://api.stripe.com/" crossorigin="">
-    <link rel="preconnect" href="https://r.stripe.com/" crossorigin="">
-    <link rel="preload" as="script"
-          href="https://js.stripe.com/v3/fingerprinted/js/checkout-app-init-a12e9d8ec0d8b78d5fcba9e54256f0ed.js">
-    <link rel="preload" as="style"
+   <link rel="preload" as="style"
           href="{{asset("public/assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
-    <link rel="preload" as="script"
-          href="https://js.stripe.com/v3/fingerprinted/js/vendor-f5b413ae35580931db57945ba21649cb.js">
     <meta name="robots" content="noindex">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <meta name="google" content="notranslate">
     <title> {{env("APP_NAME")}}</title>
-    <link rel="shortcut icon" href="https://js.stripe.com/v3/favicon.ico">
     <!-- prettier-ignore -->
 
-
-    <script id="stripe-js" src="{{asset("public/assets/checkout/stripe-7492b22e68f35ea6b37f93532ffecfe2.js")}}"
-            async=""></script>
     <link rel="stylesheet" type="text/css"
           href="{{asset("public/assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
     <link rel="stylesheet" type="text/css"
           href="{{asset("public/assets/checkout/icon-2164909f61112d056505d20036bd32fc.css")}}">
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
 <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -103,6 +94,7 @@
                                       action="{{route("transaction")}}" style="opacity: 1; pointer-events: all;"
                                       method="post">
                                     @csrf
+                                    <div id="card-element"></div>
                                     <input type="hidden" name="invoiceId" value="{{$invoice->id}}">
                                     <div class="FormFieldGroup" data-qa="FormFieldGroup-customUnitAmount">
                                         <div
@@ -1845,12 +1837,167 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <script>
+    //stripe
     $(document).ready(function () {
+
+
+        var stripe = Stripe('{{ config('services.stripe.key') }}');
+
+        var elements = stripe.elements();
+        var cardElement = elements.create('card');
+        cardElement.mount('#card-element');
+
+        var form = document.getElementById('transactionForm');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            stripe.createToken(cardElement).then(function (result) {
+                if (result.error) {
+                    console.error(result.error.message);
+                } else {
+                    var form = document.getElementById('transactionForm');
+                    var hiddenInput = document.createElement('input');
+                    hiddenInput.setAttribute('type', 'hidden');
+                    hiddenInput.setAttribute('name', 'stripeToken');
+                    hiddenInput.setAttribute('value', result.token.id);
+                    form.appendChild(hiddenInput);
+                    form.submit();
+                }
+            });
+        })
+
+
+
+
         $("#payButton").click(function (e) {
             e.preventDefault()
             $("#transactionForm").submit()
         })
     })
+    //card
+    $(document).ready(function () {
+        $('#cardNumber').on('input', function () {
+            let value = $(this).val();
+
+            // Remove non-digit characters
+            value = value.replace(/\D/g, '');
+
+            // Format the value with spaces for readability
+            if (value.length > 4) {
+                value = value.match(/.{1,4}/g).join(' ');
+            }
+
+            // Set the formatted value back to the input
+            $(this).val(value);
+
+            // Optionally, check if the value is valid
+            if (!isValidCardNumber(value.replace(/\s/g, ''))) {
+                $(this).addClass('invalid');
+            } else {
+                $(this).removeClass('invalid');
+            }
+        });
+
+        function isValidCardNumber(cardNumber) {
+            // Remove spaces and validate length
+            cardNumber = cardNumber.replace(/\s/g, '');
+
+            // Basic length validation (13 to 19 digits)
+            if (cardNumber.length < 13 || cardNumber.length > 19) {
+                return false;
+            }
+
+            // Luhn algorithm for basic validation
+            return luhnCheck(cardNumber);
+        }
+
+        function luhnCheck(value) {
+            let sum = 0;
+            let shouldDouble = false;
+
+            // Start from the end of the string
+            for (let i = value.length - 1; i >= 0; i--) {
+                let digit = parseInt(value.charAt(i), 10);
+
+                if (shouldDouble) {
+                    digit *= 2;
+                    if (digit > 9) digit -= 9;
+                }
+
+                sum += digit;
+                shouldDouble = !shouldDouble;
+            }
+
+            // Check if sum is a multiple of 10
+            return (sum % 10 === 0);
+        }
+
+        $("#cardExpiry").on('input', function () {
+            let value = $(this).val();
+
+            // Remove non-digit characters
+            value = value.replace(/\D/g, '');
+
+            // Format the value as MM/YY
+            if (value.length > 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+
+            // Set the formatted value back to the input
+            $(this).val(value);
+
+            // Optionally, check if the value is valid
+            if (value.length === 5 && !isValidDate(value)) {
+                $(this).addClass('invalid');
+            } else {
+                $(this).removeClass('invalid');
+            }
+        });
+
+        function isValidDate(dateStr) {
+            // Simple validation for the MM/YY format
+            let [month, year] = dateStr.split('/').map(Number);
+
+            // Check month range
+            if (month < 1 || month > 12) {
+                return false;
+            }
+
+            // Check year range
+            if (year < 0 || year > 99) {
+                return false;
+            }
+
+            return true;
+        }
+
+        $('#cardCvc').on('input', function () {
+            let value = $(this).val();
+
+            // Remove non-digit characters
+            value = value.replace(/\D/g, '');
+
+            // Limit the length to 4 digits (common for CVV)
+            if (value.length > 4) {
+                value = value.slice(0, 4);
+            }
+
+            // Set the formatted value back to the input
+            $(this).val(value);
+
+            // Optionally, check if the value is valid
+            if (!isValidCvv(value)) {
+                $(this).addClass('invalid');
+            } else {
+                $(this).removeClass('invalid');
+            }
+        });
+
+        function isValidCvv(cvv) {
+            // CVV should be 3 or 4 digits
+            return cvv.length === 3 || cvv.length === 4;
+        }
+    });
 </script>
 
 </body>

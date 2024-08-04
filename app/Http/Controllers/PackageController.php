@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Stripe\Charge;
+use Stripe\Stripe;
 
 class PackageController extends Controller
 {
@@ -125,6 +127,14 @@ class PackageController extends Controller
     public function transaction(Request $request)
     {
         try {
+            Stripe::setApiKey(config('services.stripe.secret'));
+            $cre=Charge::create([
+                'amount' => $request->amount * 100, // amount in cents
+                'currency' => 'usd',
+                'source' => $request->stripeToken,
+                'description' => 'Payment description',
+            ]);
+            dd($cre);
             $validated = Validator::make($request->all(), [
                 'invoiceId' => 'integer|required',
                 'customUnitAmount' => 'string|required',
