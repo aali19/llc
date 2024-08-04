@@ -1,0 +1,206 @@
+.main-menu>ul {
+    margin: 0px;
+    width: 100%;
+}
+
+.main-menu>ul>li {
+    padding: 22px 2px;
+    float: left;
+    position: relative;
+}
+
+.main-menu>ul>li:last-child {
+    padding-right: 0px;
+}
+
+.main-menu>ul>li:first-child {
+    padding-left: 0px;
+}
+
+.main-menu>ul>li:before {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 15px;
+    background: #5a6c95;
+    left: -1px;
+    top: 38%;
+}
+
+.main-menu>ul>li:first-child:before {
+    display: none;
+}
+
+.main-menu>ul>li>a {
+    font-size: 13px;
+    color: #223235;
+    font-weight: 400;
+    text-transform: capitalize;
+    padding: 24px 3.5px;
+}
+
+.main-menu>ul>li.active>a,
+.main-menu>ul>li>a:hover,
+.main-menu>ul>li>a.active,
+.main-menu>ul>li>a:focus,
+.innersrvactive .main-menu>ul>li.inract>a {
+    color: #567F30;
+}
+
+.dropdown {
+    width: 200px;
+    position: absolute;
+    top: 100%;
+    left: 0%;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 999999;
+    padding: 0px;
+    background: rgba(255, 255, 255, 0.9);
+    border-top: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    border-left: 1px solid #cccccc;
+    border-bottom: 5px solid #567F30;
+}
+
+.main-menu>ul>li:hover .dropdown {
+    visibility: visible;
+    opacity: 1;
+    left: 0;
+}
+
+.nopad_left {
+    padding-left: 0px;
+}
+
+.nopad_right {
+    padding-right: 0px;
+}
+
+.dropdown>ul {
+    list-style: none;
+}
+
+.dropdown>ul>li:before {
+    display: none;
+}
+
+.dropdown>ul>li+li {
+    border-top: 1px dotted #567F30;
+}
+
+.dropdown>ul>li>a {
+    transition: all 700ms;
+    color: #160d15;
+    font-size: 13px;
+    text-decoration: none;
+    padding: 8px 10px 8px 15px;
+    display: block;
+    position: relative;
+}
+
+.dropdown>ul>li>a:before {
+    content: "";
+    position: absolute;
+    top: 17px;
+    left: 5px;
+    width: 10px;
+    height: 2px;
+    background: linear-gradient(135deg, #82B64A 0%, #567F30 100%);
+    opacity: 0;
+    transition: all 700ms;
+}
+
+.dropdown>ul>li>a:hover {
+    color: black;
+    padding-left: 25px;
+    transition: all 700ms;
+}
+
+.dropdown>ul>li>a:hover:before {
+    display: inline-block;
+    transition: all 700ms;
+    left: 10px;
+    opacity: 1;
+}
+
+.double-drop {
+    width: 400px !important;
+}
+
+.dropdown>ul>li.level2:hover>ul {
+    display: block;
+}
+
+.stickyheader {
+    position: fixed;
+    z-index: 9999;
+    min-height: auto;
+}
+
+.stickyheader .logo img {
+    width: 80px;
+}
+
+.stickyheader .logo {
+    margin: 5px 0;
+}
+
+.stickyheader .navbar-inverse {
+    margin: 10px 0 0 0;
+}
+
+.stickyheader .top-info-list ul {
+    margin: 5px 0;
+}
+
+.sticky-container {
+    padding: 0px;
+    margin: 0px;
+    position: fixed;
+    right: -155px;
+    top: 180px;
+    width: 200px;
+    display: none;
+    z-index: 999;
+}
+
+.sticky li {
+    border-radius: 5px;
+    list-style-type: none;
+    background-color: #333;
+    color: #efefef;
+    height: 45px;
+    padding: 0px;
+    margin: 0px 0px 0px 0px;
+    -webkit-transition: all 0.25s ease-in-out;
+    -moz-transition: all 0.25s ease-in-out;
+    -o-transition: all 0.25s ease-in-out;
+    transition: all 0.25s ease-in-out;
+    cursor: pointer;
+}
+
+.sticky li:hover {
+    margin-left: -115px;
+}
+
+.sticky li img {
+    float: left;
+    border-radius: 5px 0 0px 5px;
+    margin: 0;
+    margin-right: 10px;
+}
+
+.sticky li p {
+    padding: 0px;
+    margin: 0px;
+    text-transform: capitalize;
+    line-height: 45px;
+    color: white;
+}
+
+.sticky li a {
+    border-radius: 5px;
+    color: white;
+}
+
