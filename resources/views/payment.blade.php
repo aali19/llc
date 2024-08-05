@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <link rel="preload" as="style"
-          href="{{asset("assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
+          href="{{asset("public/assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
     <meta name="robots" content="noindex">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <meta name="google" content="notranslate">
@@ -11,9 +11,9 @@
     <!-- prettier-ignore -->
 
     <link rel="stylesheet" type="text/css"
-          href="{{asset("assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
+          href="{{asset("public/assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
     <link rel="stylesheet" type="text/css"
-          href="{{asset("assets/checkout/icon-2164909f61112d056505d20036bd32fc.css")}}">
+          href="{{asset("public/assets/checkout/icon-2164909f61112d056505d20036bd32fc.css")}}">
 </head>
 <body>
 <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -247,7 +247,7 @@
                                                                 <div class="Tabs-TabListItemContent">
                                                                     <div class="Tabs-TabListPaymentMethod">
                                                                         <div class="Tabs-TabListPaymentIcon"><img
-                                                                                src="{{asset("assets/checkout/card-ce24697297bd3c6a00fdd2fb6f760f0d.svg")}}"
+                                                                                src="{{asset("public/assets/checkout/card-ce24697297bd3c6a00fdd2fb6f760f0d.svg")}}"
                                                                                 alt="" class="Icon Icon--md"></div>
                                                                         <div class="Tabs-TabListPaymentLabel"
                                                                              data-text="Card">Card
@@ -308,7 +308,7 @@
                                                                                                     style="transform: none;">
                                                                                                     <span
                                                                                                         class="FormFieldInput-IconsIcon is-visible"><img
-                                                                                                            src="{{asset("/assets/checkout/visa-729c05c240c4bdb47b03ac81d9945bfe.svg")}}"
+                                                                                                            src="{{asset("public/assets/checkout/visa-729c05c240c4bdb47b03ac81d9945bfe.svg")}}"
                                                                                                             alt="Visa"
                                                                                                             class="BrandIcon"
                                                                                                             loading="lazy"
@@ -318,7 +318,7 @@
                                                                                                     style="transform: none;">
                                                                                                     <span
                                                                                                         class="FormFieldInput-IconsIcon is-visible"><img
-                                                                                                            src="{{asset("/assets/checkout/mastercard-4d8844094130711885b5e41b28c9848f.svg")}}"
+                                                                                                            src="{{asset("public/assets/checkout/mastercard-4d8844094130711885b5e41b28c9848f.svg")}}"
                                                                                                             alt="MasterCard"
                                                                                                             class="BrandIcon"
                                                                                                             loading="lazy"
@@ -328,7 +328,7 @@
                                                                                                     style="transform: none;">
                                                                                                     <span
                                                                                                         class="FormFieldInput-IconsIcon is-visible"><img
-                                                                                                            src="{{asset("/assets/checkout/amex-a49b82f46c5cd6a96a6e418a6ca1717c.svg")}}"
+                                                                                                            src="{{asset("public/assets/checkout/amex-a49b82f46c5cd6a96a6e418a6ca1717c.svg")}}"
                                                                                                             alt="American Express"
                                                                                                             class="BrandIcon"
                                                                                                             loading="lazy"
@@ -341,7 +341,7 @@
                                                                                                         role="presentation"><span
                                                                                                             class="FormFieldInput-IconsIcon"
                                                                                                             role="presentation"><img
-                                                                                                                src="{{asset("/assets/checkout/unionpay-8a10aefc7295216c338ba4e1224627a1.svg")}}"
+                                                                                                                src="{{asset("public/assets/checkout/unionpay-8a10aefc7295216c338ba4e1224627a1.svg")}}"
                                                                                                                 alt="UnionPay"
                                                                                                                 class="BrandIcon"
                                                                                                                 loading="lazy"
@@ -350,7 +350,7 @@
                                                                                                         role="presentation"><span
                                                                                                             class="FormFieldInput-IconsIcon"
                                                                                                             role="presentation"><img
-                                                                                                                src="{{asset("/assets/checkout/jcb-271fd06e6e7a2c52692ffa91a95fb64f.svg")}}"
+                                                                                                                src="{{asset("public/assets/checkout/jcb-271fd06e6e7a2c52692ffa91a95fb64f.svg")}}"
                                                                                                                 alt="JCB"
                                                                                                                 class="BrandIcon"
                                                                                                                 loading="lazy"
@@ -359,7 +359,7 @@
                                                                                                         role="presentation"><span
                                                                                                             class="FormFieldInput-IconsIcon"
                                                                                                             role="presentation"><img
-                                                                                                                src="{{asset("/assets/checkout/discover-ac52cd46f89fa40a29a0bfb954e33173.svg")}}"
+                                                                                                                src="{{asset("public/assets/checkout/discover-ac52cd46f89fa40a29a0bfb954e33173.svg")}}"
                                                                                                                 alt="Discover"
                                                                                                                 class="BrandIcon"
                                                                                                                 loading="lazy"
@@ -368,7 +368,7 @@
                                                                                                         role="presentation"><span
                                                                                                             class="FormFieldInput-IconsIcon"
                                                                                                             role="presentation"><img
-                                                                                                                src="{{asset("/assets/checkout/diners-fbcbd3360f8e3f629cdaa80e93abdb8b.svg")}}"
+                                                                                                                src="{{asset("public/assets/checkout/diners-fbcbd3360f8e3f629cdaa80e93abdb8b.svg")}}"
                                                                                                                 alt="Diners Club"
                                                                                                                 class="BrandIcon"
                                                                                                                 loading="lazy"
