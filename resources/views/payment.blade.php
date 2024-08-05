@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <link rel="preload" as="style"
-          href="{{asset("public/assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
+          href="{{asset("assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
     <meta name="robots" content="noindex">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <meta name="google" content="notranslate">
@@ -11,9 +11,9 @@
     <!-- prettier-ignore -->
 
     <link rel="stylesheet" type="text/css"
-          href="{{asset("public/assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
+          href="{{asset("assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
     <link rel="stylesheet" type="text/css"
-          href="{{asset("public/assets/checkout/icon-2164909f61112d056505d20036bd32fc.css")}}">
+          href="{{asset("assets/checkout/icon-2164909f61112d056505d20036bd32fc.css")}}">
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
@@ -82,7 +82,7 @@
                                     <div class="ProductSummary-totalAmountContainer" style="opacity: 1;"><span
                                             class="ProductSummary-totalAmount Text Text-color--default Text-fontWeight--600 Text--tabularNumbers"
                                             id="ProductSummary-totalAmount"
-                                            data-testid="product-summary-total-amount"><span>$50.00</span></span></div>
+                                            data-testid="product-summary-total-amount"><span></span></span></div>
                                     <span
                                         class="ProductSummary-description Text Text-color--gray500 Text-fontSize--14 Text-fontWeight--500"
                                         id="ProductSummary-description" data-testid="product-summary-description"><div
@@ -90,7 +90,6 @@
                                                 class="ExpandableText ExpandableText--noMarginRight"><div data-testid=""
                                                                                                           class="ExpandableText--truncated ">Thank You.</div></div></div></span>
                                 </div>
-                                      action="{{route("transaction")}}" style="opacity: 1; pointer-events: all;"
                                 <form class="ProductSummary-totalsWrite" style="opacity: 1; pointer-events: all;"
                                       method="post">
 
@@ -110,6 +109,7 @@
                                                                     class="CheckoutInput ProductSummary-changeAmountInput Input"
                                                                     autocomplete="fake" autocorrect="off"
                                                                     spellcheck="false"
+                                                                    readonly
                                                                     id="customUnitAmount" name="customUnitAmount"
                                                                     type="text" inputmode="decimal" placeholder="$0.00"
                                                                     aria-invalid="false" aria-describedby=""
@@ -145,8 +145,7 @@
                                 class="ProductSummary-description Text Text-color--gray500 Text-fontSize--14 Text-fontWeight--500"
                                 id="ProductSummary-description" data-testid="product-summary-description"><div
                                     class="ProductSummaryDescription ProductSummaryDescription--singleItem"><div
-                                        class="ExpandableText ExpandableText--noMarginRight"><div data-testid=""
-                                                                                                  class="ExpandableText--truncated">Thank You.</div></div></div></span>
+                                        class="ExpandableText ExpandableText--noMarginRight"></div></div></span>
                         </div>
                     </div>
                 </div>
@@ -242,7 +241,7 @@
                                                                 <div class="Tabs-TabListItemContent">
                                                                     <div class="Tabs-TabListPaymentMethod">
                                                                         <div class="Tabs-TabListPaymentIcon"><img
-                                                                                src="{{asset("public/public/assets/checkout/card-ce24697297bd3c6a00fdd2fb6f760f0d.svg")}}"
+                                                                                src="{{asset("assets/checkout/card-ce24697297bd3c6a00fdd2fb6f760f0d.svg")}}"
                                                                                 alt="" class="Icon Icon--md"></div>
                                                                         <div class="Tabs-TabListPaymentLabel"
                                                                              data-text="Card">Card
