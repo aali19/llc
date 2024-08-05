@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\Transaction;
+use App\Services\NmiService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,13 @@ use Stripe\Stripe;
 
 class PackageController extends Controller
 {
+    protected $nmiService;
+
+    public function __construct(NmiService $nmiService)
+    {
+        $this->nmiService = $nmiService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -127,29 +135,35 @@ class PackageController extends Controller
     public function transaction(Request $request)
     {
         try {
-            Stripe::setApiKey(config('services.stripe.secret'));
-            $cre=Charge::create([
-                'amount' => $request->amount * 100, // amount in cents
-                'currency' => 'usd',
-                'source' => $request->stripeToken,
-                'description' => 'Payment description',
-            ]);
-            dd($cre);
+
             $validated = Validator::make($request->all(), [
                 'invoiceId' => 'integer|required',
-                'customUnitAmount' => 'string|required',
+//                'customUnitAmount' => 'string|required',
                 'amount' => 'integer|required',
             ]);
             if ($validated->fails())
                 throw new \Exception($validated->errors()->first());
 
+
             DB::beginTransaction();
             $invoice = Invoice::find($request->invoiceId);
+
             if (empty($invoice))
                 throw new \Exception("Invalid invoice");
 
             if ($invoice->status === "paid")
                 throw new \Exception("This invoice is already paid!");
+
+            $amount = $request->input('amount');
+            $creditCardNumber = $request->input('cardNumber');
+            $expirationDate = $request->input('cardExpiry');
+
+            $response = $this->nmiService->processPayment($amount, $creditCardNumber, $expirationDate);
+
+            if (isset($response['error'])) {
+                throw new \Exception($response['error']);
+            }
+
 
             $invoice->paid_amount = $invoice->paid_amount + str_replace("$", "", $request->customUnitAmount);
             $invoice->completed_milestone++;
@@ -166,7 +180,7 @@ class PackageController extends Controller
             return view("thank-you-payment", ["title", "Transaction successful!"]);
         } catch (\Exception $e) {
             DB::rollBack();
-
+            session(['error' => $e->getMessage()]);
             return redirect()->back()->with("error", $e->getMessage());
         }
 

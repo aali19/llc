@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <link rel="preload" as="style"
-          href="{{asset("public/assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
+          href="{{asset("assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
     <meta name="robots" content="noindex">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <meta name="google" content="notranslate">
@@ -11,10 +11,9 @@
     <!-- prettier-ignore -->
 
     <link rel="stylesheet" type="text/css"
-          href="{{asset("public/assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
+          href="{{asset("assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
     <link rel="stylesheet" type="text/css"
-          href="{{asset("public/assets/checkout/icon-2164909f61112d056505d20036bd32fc.css")}}">
-    <script src="https://js.stripe.com/v3/"></script>
+          href="{{asset("assets/checkout/icon-2164909f61112d056505d20036bd32fc.css")}}">
 </head>
 <body>
 <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -23,6 +22,10 @@
         <div class="App App--singleItem App--customAmount">
             <div class="App-Overview">
                 <header class="Header">
+                    @if (session('error'))
+                    <div style="color: indianred;">{{session('error')}}</div><br>
+                    @endif
+
                     @if($invoice->status==="paid")
                         <h2>Your invoice has been paid! </h2>
                         @php die; @endphp
@@ -90,9 +93,10 @@
                                                 class="ExpandableText ExpandableText--noMarginRight"><div data-testid=""
                                                                                                           class="ExpandableText--truncated ">Thank You.</div></div></div></span>
                                 </div>
-                                <form class="ProductSummary-totalsWrite" style="opacity: 1; pointer-events: all;"
-                                      method="post">
+                                <form class="ProductSummary-totalsWrite"  style="opacity: 1; pointer-events: all;"
+                                     >
 
+                                    <input type="hidden" name="invoiceId" value="{{$invoice->id}}">
                                     <div class="FormFieldGroup" data-qa="FormFieldGroup-customUnitAmount">
                                         <div
                                             class="FormFieldGroup-labelContainer flex-container justify-content-space-between">
@@ -175,6 +179,8 @@
                         <form  id="transactionForm" method="post"
                                action="{{route("transaction")}}" novalidate="">
                             @csrf
+                            <input type="hidden" name="amount"
+                                   value="{{$invoice->installment_amount===null?$invoice->order_amount:$invoice->installment_amount}}">
                             <input type="hidden" name="invoiceId" value="{{$invoice->id}}">
                             <div style="height: 572.766px;">
                                 <div>
@@ -241,7 +247,7 @@
                                                                 <div class="Tabs-TabListItemContent">
                                                                     <div class="Tabs-TabListPaymentMethod">
                                                                         <div class="Tabs-TabListPaymentIcon"><img
-                                                                                src="{{asset("public/assets/checkout/card-ce24697297bd3c6a00fdd2fb6f760f0d.svg")}}"
+                                                                                src="{{asset("assets/checkout/card-ce24697297bd3c6a00fdd2fb6f760f0d.svg")}}"
                                                                                 alt="" class="Icon Icon--md"></div>
                                                                         <div class="Tabs-TabListPaymentLabel"
                                                                              data-text="Card">Card
@@ -273,10 +279,184 @@
                                                                                      id="cardNumber-fieldset-inner">
 
                                                                                     <div
+                                                                                        class="FormFieldGroup-child FormFieldGroup-child--width-12 FormFieldGroup-childLeft FormFieldGroup-childRight FormFieldGroup-childTop">
+                                                                                        <div
+                                                                                            class="FormFieldInput padding-right-120">
+                                                                                            <div
+                                                                                                class="CheckoutInputContainer">
+                                                                                                <span
+                                                                                                    class="InputContainer"
+                                                                                                    data-max=""><input
+                                                                                                        class="CheckoutInput CheckoutInput--tabularnums Input Input--empty"
+                                                                                                        autocomplete="cc-number"
+                                                                                                        autocorrect="off"
+                                                                                                        spellcheck="false"
+                                                                                                        id="cardNumber"
+                                                                                                        name="cardNumber"
+                                                                                                        type="text"
+                                                                                                        inputmode="numeric"
+                                                                                                        aria-label="Card number"
+                                                                                                        placeholder="1234 1234 1234 1234"
+                                                                                                        aria-invalid="false"
+                                                                                                        data-1p-ignore="false"
+                                                                                                        value=""></span>
+                                                                                            </div>
+                                                                                            <div
+                                                                                                class="FormFieldInput-Icons"
+                                                                                                style="opacity: 1;">
+                                                                                                <div
+                                                                                                    style="transform: none;">
+                                                                                                    <span
+                                                                                                        class="FormFieldInput-IconsIcon is-visible"><img
+                                                                                                            src="{{asset("/assets/checkout/visa-729c05c240c4bdb47b03ac81d9945bfe.svg")}}"
+                                                                                                            alt="Visa"
+                                                                                                            class="BrandIcon"
+                                                                                                            loading="lazy"
+                                                                                                            fetchpriority="low"></span>
+                                                                                                </div>
+                                                                                                <div
+                                                                                                    style="transform: none;">
+                                                                                                    <span
+                                                                                                        class="FormFieldInput-IconsIcon is-visible"><img
+                                                                                                            src="{{asset("/assets/checkout/mastercard-4d8844094130711885b5e41b28c9848f.svg")}}"
+                                                                                                            alt="MasterCard"
+                                                                                                            class="BrandIcon"
+                                                                                                            loading="lazy"
+                                                                                                            fetchpriority="low"></span>
+                                                                                                </div>
+                                                                                                <div
+                                                                                                    style="transform: none;">
+                                                                                                    <span
+                                                                                                        class="FormFieldInput-IconsIcon is-visible"><img
+                                                                                                            src="{{asset("/assets/checkout/amex-a49b82f46c5cd6a96a6e418a6ca1717c.svg")}}"
+                                                                                                            alt="American Express"
+                                                                                                            class="BrandIcon"
+                                                                                                            loading="lazy"
+                                                                                                            fetchpriority="low"></span>
+                                                                                                </div>
+                                                                                                <div
+                                                                                                    class="CardFormFieldGroupIconOverflow">
+                                                                                                    <span
+                                                                                                        class="CardFormFieldGroupIconOverflow-Item CardFormFieldGroupIconOverflow-Item--invisible"
+                                                                                                        role="presentation"><span
+                                                                                                            class="FormFieldInput-IconsIcon"
+                                                                                                            role="presentation"><img
+                                                                                                                src="{{asset("/assets/checkout/unionpay-8a10aefc7295216c338ba4e1224627a1.svg")}}"
+                                                                                                                alt="UnionPay"
+                                                                                                                class="BrandIcon"
+                                                                                                                loading="lazy"
+                                                                                                                fetchpriority="low"></span></span><span
+                                                                                                        class="CardFormFieldGroupIconOverflow-Item CardFormFieldGroupIconOverflow-Item--invisible"
+                                                                                                        role="presentation"><span
+                                                                                                            class="FormFieldInput-IconsIcon"
+                                                                                                            role="presentation"><img
+                                                                                                                src="{{asset("/assets/checkout/jcb-271fd06e6e7a2c52692ffa91a95fb64f.svg")}}"
+                                                                                                                alt="JCB"
+                                                                                                                class="BrandIcon"
+                                                                                                                loading="lazy"
+                                                                                                                fetchpriority="low"></span></span><span
+                                                                                                        class="CardFormFieldGroupIconOverflow-Item CardFormFieldGroupIconOverflow-Item--invisible"
+                                                                                                        role="presentation"><span
+                                                                                                            class="FormFieldInput-IconsIcon"
+                                                                                                            role="presentation"><img
+                                                                                                                src="{{asset("/assets/checkout/discover-ac52cd46f89fa40a29a0bfb954e33173.svg")}}"
+                                                                                                                alt="Discover"
+                                                                                                                class="BrandIcon"
+                                                                                                                loading="lazy"
+                                                                                                                fetchpriority="low"></span></span><span
+                                                                                                        class="CardFormFieldGroupIconOverflow-Item CardFormFieldGroupIconOverflow-Item--visible"
+                                                                                                        role="presentation"><span
+                                                                                                            class="FormFieldInput-IconsIcon"
+                                                                                                            role="presentation"><img
+                                                                                                                src="{{asset("/assets/checkout/diners-fbcbd3360f8e3f629cdaa80e93abdb8b.svg")}}"
+                                                                                                                alt="Diners Club"
+                                                                                                                class="BrandIcon"
+                                                                                                                loading="lazy"
+                                                                                                                fetchpriority="low"></span></span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div
                                                                                         class="FormFieldGroup-child FormFieldGroup-child--width-6 FormFieldGroup-childLeft FormFieldGroup-childBottom">
                                                                                         <div class="FormFieldInput">
-                                                                                            <div id="card-element"></div>
-
+                                                                                            <div
+                                                                                                class="CheckoutInputContainer">
+                                                                                                <span
+                                                                                                    class="InputContainer"
+                                                                                                    data-max=""><input
+                                                                                                        class="CheckoutInput CheckoutInput--tabularnums Input Input--empty"
+                                                                                                        autocomplete="cc-exp"
+                                                                                                        autocorrect="off"
+                                                                                                        spellcheck="false"
+                                                                                                        id="cardExpiry"
+                                                                                                        name="cardExpiry"
+                                                                                                        type="text"
+                                                                                                        inputmode="numeric"
+                                                                                                        aria-label="Expiration"
+                                                                                                        placeholder="MM / YY"
+                                                                                                        aria-invalid="false"
+                                                                                                        data-1p-ignore="false"
+                                                                                                        value=""></span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="FormFieldGroup-child FormFieldGroup-child--width-6 FormFieldGroup-childRight FormFieldGroup-childBottom">
+                                                                                        <div
+                                                                                            class="FormFieldInput has-icon padding-right-32">
+                                                                                            <div
+                                                                                                class="CheckoutInputContainer">
+                                                                                                <span
+                                                                                                    class="InputContainer"
+                                                                                                    data-max=""><input
+                                                                                                        class="CheckoutInput CheckoutInput--tabularnums Input Input--empty"
+                                                                                                        autocomplete="cc-csc"
+                                                                                                        autocorrect="off"
+                                                                                                        spellcheck="false"
+                                                                                                        id="cardCvc"
+                                                                                                        name="cardCvc"
+                                                                                                        type="text"
+                                                                                                        inputmode="numeric"
+                                                                                                        aria-label="CVC"
+                                                                                                        placeholder="CVC"
+                                                                                                        aria-invalid="false"
+                                                                                                        data-1p-ignore="false"
+                                                                                                        value=""></span>
+                                                                                            </div>
+                                                                                            <div
+                                                                                                class="FormFieldInput-Icon is-loaded"
+                                                                                                data-testid="FormFieldInput-Icon">
+                                                                                                <div>
+                                                                                                    <svg
+                                                                                                        class="Icon Icon--md"
+                                                                                                        focusable="false"
+                                                                                                        viewBox="0 0 32 21"
+                                                                                                        role="img"
+                                                                                                        aria-label="CVC">
+                                                                                                        <title>
+                                                                                                            CVC</title>
+                                                                                                        <g fill="none"
+                                                                                                           fill-rule="evenodd">
+                                                                                                            <g class="Icon-fill">
+                                                                                                                <g transform="translate(0 2)">
+                                                                                                                    <path
+                                                                                                                        d="M21.68 0H2c-.92 0-2 1.06-2 2v15c0 .94 1.08 2 2 2h25c.92 0 2-1.06 2-2V9.47a5.98 5.98 0 0 1-3 1.45V11c0 .66-.36 1-1 1H3c-.64 0-1-.34-1-1v-1c0-.66.36-1 1-1h17.53a5.98 5.98 0 0 1 1.15-9z"
+                                                                                                                        opacity=".2"></path>
+                                                                                                                    <path
+                                                                                                                        d="M19.34 3H0v3h19.08a6.04 6.04 0 0 1 .26-3z"
+                                                                                                                        opacity=".3"></path>
+                                                                                                                    <!---->
+                                                                                                                </g>
+                                                                                                                <g transform="translate(18)">
+                                                                                                                    <path
+                                                                                                                        d="M7 14A7 7 0 1 1 7 0a7 7 0 0 1 0 14zM4.22 4.1h-.79l-1.93.98v1l1.53-.8V9.9h1.2V4.1zm2.3.8c.57 0 .97.32.97.78 0 .5-.47.85-1.15.85h-.3v.85h.36c.72 0 1.21.36 1.21.88 0 .5-.48.84-1.16.84-.5 0-1-.16-1.52-.47v1c.56.24 1.12.37 1.67.37 1.31 0 2.21-.67 2.21-1.64 0-.68-.42-1.23-1.12-1.45.6-.2.99-.73.99-1.33C8.68 4.64 7.85 4 6.65 4a4 4 0 0 0-1.57.34v.98c.48-.27.97-.42 1.44-.42zm4.32 2.18c.73 0 1.24.43 1.24.99 0 .59-.51 1-1.24 1-.44 0-.9-.14-1.37-.43v1.03c.49.22.99.33 1.48.33.26 0 .5-.04.73-.1.52-.85.82-1.83.82-2.88l-.02-.42a2.3 2.3 0 0 0-1.23-.32c-.18 0-.37.01-.57.04v-1.3h1.44a5.62 5.62 0 0 0-.46-.92H9.64v3.15c.4-.1.8-.17 1.2-.17z"></path>
+                                                                                                                </g>
+                                                                                                            </g>
+                                                                                                        </g>
+                                                                                                    </svg>
+                                                                                                </div>
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div
@@ -1641,23 +1821,7 @@
                     </div>
                 </div>
             </div>
-            <footer class="App-Footer Footer">
-                <div class="Footer-PoweredBy"><a class="Link Link--primary" href="https://stripe.com/" target="_blank"
-                                                 rel="noopener"><span
-                            class="Footer-PoweredBy-Text Text Text-color--gray400 Text-fontSize--12 Text-fontWeight--400">Powered by <svg
-                                class="InlineSVG Icon Footer-PoweredBy-Icon Icon--md" focusable="false" width="33"
-                                height="15"
-                                role="img" aria-labelledby="stripe-title"><title id="stripe-title">Stripe</title><g
-                                    fill-rule="evenodd"><path
-                                        d="M32.956 7.925c0-2.313-1.12-4.138-3.261-4.138-2.15 0-3.451 1.825-3.451 4.12 0 2.719 1.535 4.092 3.74 4.092 1.075 0 1.888-.244 2.502-.587V9.605c-.614.307-1.319.497-2.213.497-.876 0-1.653-.307-1.753-1.373h4.418c0-.118.018-.588.018-.804zm-4.463-.859c0-1.02.624-1.445 1.193-1.445.55 0 1.138.424 1.138 1.445h-2.33zM22.756 3.787c-.885 0-1.454.415-1.77.704l-.118-.56H18.88v10.535l2.259-.48.009-2.556c.325.235.804.57 1.6.57 1.616 0 3.089-1.302 3.089-4.166-.01-2.62-1.5-4.047-3.08-4.047zm-.542 6.225c-.533 0-.85-.19-1.066-.425l-.009-3.352c.235-.262.56-.443 1.075-.443.822 0 1.391.922 1.391 2.105 0 1.211-.56 2.115-1.39 2.115zM18.04 2.766V.932l-2.268.479v1.843zM15.772 3.94h2.268v7.905h-2.268zM13.342 4.609l-.144-.669h-1.952v7.906h2.259V6.488c.533-.696 1.436-.57 1.716-.47V3.94c-.289-.108-1.346-.307-1.879.669zM8.825 1.98l-2.205.47-.009 7.236c0 1.337 1.003 2.322 2.34 2.322.741 0 1.283-.135 1.581-.298V9.876c-.289.117-1.716.533-1.716-.804V5.865h1.716V3.94H8.816l.009-1.96zM2.718 6.235c0-.352.289-.488.767-.488.687 0 1.554.208 2.241.578V4.202a5.958 5.958 0 0 0-2.24-.415c-1.835 0-3.054.957-3.054 2.557 0 2.493 3.433 2.096 3.433 3.17 0 .416-.361.552-.867.552-.75 0-1.708-.307-2.467-.723v2.15c.84.362 1.69.515 2.467.515 1.879 0 3.17-.93 3.17-2.548-.008-2.692-3.45-2.213-3.45-3.225z"></path></g></svg></span></a>
-                </div>
-                <div class="Footer-Links"><a class="Link Link--primary" href="https://stripe.com/legal/end-users"
-                                             target="_blank" rel="noopener"><span
-                            class="Text Text-color--gray400 Text-fontSize--12 Text-fontWeight--400">Terms</span></a><a
-                        class="Link Link--primary" href="https://stripe.com/privacy" target="_blank"
-                        rel="noopener"><span class="Text Text-color--gray400 Text-fontSize--12 Text-fontWeight--400">Privacy</span></a>
-                </div>
-            </footer>
+
         </div>
     </div>
 </div>
@@ -1666,36 +1830,6 @@
 <script>
     //stripe
     $(document).ready(function () {
-
-
-        var stripe = Stripe('{{ config('services.stripe.key') }}');
-
-        var elements = stripe.elements();
-        var cardElement = elements.create('card');
-        cardElement.mount('#card-element');
-
-        var form = document.getElementById('transactionForm');
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            stripe.createToken(cardElement).then(function (result) {
-                if (result.error) {
-                    console.error(result.error.message);
-                } else {
-                    var form = document.getElementById('transactionForm');
-                    var hiddenInput = document.createElement('input');
-                    hiddenInput.setAttribute('type', 'hidden');
-                    hiddenInput.setAttribute('name', 'stripeToken');
-                    hiddenInput.setAttribute('value', result.token.id);
-                    form.appendChild(hiddenInput);
-                    form.submit();
-                }
-            });
-        })
-
-
-
-
         $("#payButton").click(function (e) {
             e.preventDefault()
             $("#transactionForm").submit()
