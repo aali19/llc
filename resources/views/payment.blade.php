@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <link rel="preload" as="style"
-          href="{{asset("assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
+          href="{{asset("public/assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
     <meta name="robots" content="noindex">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <meta name="google" content="notranslate">
@@ -11,9 +11,9 @@
     <!-- prettier-ignore -->
 
     <link rel="stylesheet" type="text/css"
-          href="{{asset("assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
+          href="{{asset("public/assets/checkout/checkout-app-init-4f446c9983667846b5bdd0295927823b.css")}}">
     <link rel="stylesheet" type="text/css"
-          href="{{asset("assets/checkout/icon-2164909f61112d056505d20036bd32fc.css")}}">
+          href="{{asset("public/assets/checkout/icon-2164909f61112d056505d20036bd32fc.css")}}">
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
@@ -241,7 +241,7 @@
                                                                 <div class="Tabs-TabListItemContent">
                                                                     <div class="Tabs-TabListPaymentMethod">
                                                                         <div class="Tabs-TabListPaymentIcon"><img
-                                                                                src="{{asset("assets/checkout/card-ce24697297bd3c6a00fdd2fb6f760f0d.svg")}}"
+                                                                                src="{{asset("public/assets/checkout/card-ce24697297bd3c6a00fdd2fb6f760f0d.svg")}}"
                                                                                 alt="" class="Icon Icon--md"></div>
                                                                         <div class="Tabs-TabListPaymentLabel"
                                                                              data-text="Card">Card
